@@ -1,0 +1,41 @@
+package com.example.MyHospitalManagement.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class Department {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, length = 20)
+    private String name;
+
+    @OneToOne
+    @JoinColumn(nullable = false)
+    @ToString.Exclude
+    private Doctor headDoctor;
+
+    @ManyToMany
+    @JoinTable(
+            name = "my_dpt_doctors",
+            joinColumns = @JoinColumn(name = "dpt_id"),
+            inverseJoinColumns = @JoinColumn(name = "doctor_id")
+
+
+    )
+    @ToString.Exclude
+    private Set<Doctor> doctors = new HashSet<>();
+
+}
